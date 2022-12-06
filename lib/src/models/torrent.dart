@@ -11,8 +11,7 @@ class Torrent with _$Torrent {
     required String quality,
     required String type,
     required String size,
-
-}) = Torrent$;
+  }) = Torrent$;
 
   factory Torrent.fromJson(Map<dynamic, dynamic> json) => _$TorrentFromJson(Map<String, dynamic>.from(json));
 }

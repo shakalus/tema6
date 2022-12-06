@@ -8,11 +8,13 @@ class MovieApi {
   final Client _client;
 
   Future<List<Movie>> getMovies(int page) async {
-    final Response response = await _client.get(Uri.parse(
-        'https://yts.mx/api/v2/list_movies.json?limit=20&page=$page',),);
+    final Response response = await _client.get(
+      Uri.parse(
+        'https://yts.mx/api/v2/list_movies.json?limit=20&page=$page',
+      ),
+    );
 
-    final Map<String, dynamic> body =
-        jsonDecode(response.body) as Map<String, dynamic>;
+    final Map<String, dynamic> body = jsonDecode(response.body) as Map<String, dynamic>;
     final Map<String, dynamic> data = body['data'] as Map<String, dynamic>;
 
     return (data['movies'] as List<dynamic>)

@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
   final ScrollController _controller = ScrollController();
   bool _isLoading = false;
 
-
   @override
   void initState() {
     super.initState();
@@ -59,66 +58,69 @@ class _HomePageState extends State<HomePage> {
     final MovieApi movieApi = MovieApi(client);
     final List<Movie> response = await movieApi.getMovies(1);
 
-
     setState(() {
       _movie.addAll(response);
       _isLoading = false;
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: const Center(child:  Text('Movies',style: TextStyle(color: Colors.white),)),
-          leading: const Icon(
-            Icons.menu,
-            color: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        title: const Center(
+            child: Text(
+          'Movies',
+          style: TextStyle(color: Colors.white),
+        )),
+        leading: const Icon(
+          Icons.menu,
+          color: Colors.white,
+        ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
           ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white,
+        ],
+      ),
+      body: ListView.builder(
+        controller: _controller,
+        itemCount: _movie.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (_movie.length == index) {
+            if (_isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }
+          final Movie movie = _movie[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/movieDetails',
+                arguments: movie,
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Image.network(
+                movie.mediumImage,
               ),
             ),
-          ],
-        ),
-
-         body:ListView.builder(
-           controller: _controller,
-          itemCount: _movie.length + 1,
-          itemBuilder: (BuildContext context, int index) {
-            if (_movie.length == index) {
-              if (_isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            }
-            final Movie movie = _movie[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/movieDetails',
-                    arguments: movie,);
-              },
-
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width*0.4,
-                  height: MediaQuery.of(context).size.height*0.4,
-                  child: Image.network(
-              movie.mediumImage,
-            ),
-                ),);
-          },
-        ),
+          );
+        },
+      ),
     );
   }
 }
@@ -136,59 +138,86 @@ class _DetailsPageState extends State<DetailsPage> {
     final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
     return Scaffold(
       appBar: AppBar(
-        title: Text('${movie.title} (${movie.year})',style: const TextStyle(color: Colors.white),),
-    elevation: 0,
+        title: Text(
+          '${movie.title} (${movie.year})',
+          style: const TextStyle(color: Colors.white),
+        ),
+        elevation: 0,
       ),
       body: ListView(
-        children: <Widget> [
+        children: <Widget>[
           Row(
-            children: <Widget> [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Image.network(
                   movie.mediumImage,
                 ),
               ),
-              const SizedBox(width: 10,),
+              const SizedBox(
+                width: 10,
+              ),
               Column(
-                children: <Widget> [
-                  Text(' rating: ${movie.rating.toString()}',style: const TextStyle(color: Colors.white),),
-                  const SizedBox(height: 10,),
-                  Text(' runtime: ${movie.runtime.toString()} minutes',style: const TextStyle(color: Colors.white),),
+                children: <Widget>[
+                  Text(
+                    ' rating: ${movie.rating.toString()}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    ' runtime: ${movie.runtime.toString()} minutes',
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
             ],
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width*0.4,
+            width: MediaQuery.of(context).size.width * 0.4,
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Text(movie.summary,style: const TextStyle(color: Colors.white, fontSize: 18, ),),
+              child: Text(
+                movie.summary,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
             ),
           ),
-         const SizedBox(height: 10),
-         const Center(child: Text('Available in:',style: TextStyle(color: Colors.white, fontSize: 18, ),)),
-
-          for(final Torrent torrent in movie.torrents)
+          const SizedBox(height: 10),
+          const Center(
+              child: Text(
+            'Available in:',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          )),
+          for (final Torrent torrent in movie.torrents)
             ListTile(
               title: Column(
                 children: <Widget>[
-                  Text('${torrent.quality} ${torrent.type}',style: const TextStyle(color: Colors.white),),
+                  Text(
+                    '${torrent.quality} ${torrent.type}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
                   const SizedBox(width: 50),
-                  ElevatedButton(onPressed: (){
-
-
-                  }, style: ElevatedButton.styleFrom(backgroundColor: Colors.purpleAccent), child: const Text('Download',style: TextStyle(color: Colors.white),),),
-
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.purpleAccent),
+                    child: const Text(
+                      'Download',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
-
             ),
-
         ],
-
       ),
-
     );
   }
 }

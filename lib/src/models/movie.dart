@@ -16,9 +16,7 @@ class Movie with _$Movie {
     @JsonKey(name: 'medium_cover_image') required String mediumImage,
     @JsonKey(name: 'large_cover_image') required String largeImage,
     required List<Torrent> torrents,
-
   }) = Movie$;
 
-  factory Movie.fromJson(Map<dynamic, dynamic> json) =>
-      _$MovieFromJson(Map<String, dynamic>.from(json));
+  factory Movie.fromJson(Map<dynamic, dynamic> json) => _$MovieFromJson(Map<String, dynamic>.from(json));
 }

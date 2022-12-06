@@ -14,8 +14,7 @@ _$Torrent$ _$$Torrent$FromJson(Map<String, dynamic> json) => _$Torrent$(
       size: json['size'] as String,
     );
 
-Map<String, dynamic> _$$Torrent$ToJson(_$Torrent$ instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$Torrent$ToJson(_$Torrent$ instance) => <String, dynamic>{
       'url': instance.url,
       'hash': instance.hash,
       'quality': instance.quality,
