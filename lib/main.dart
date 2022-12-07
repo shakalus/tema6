@@ -70,10 +70,11 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 0,
         title: const Center(
-            child: Text(
-          'Movies',
-          style: TextStyle(color: Colors.white),
-        )),
+          child: Text(
+            'Movies',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
         leading: const Icon(
           Icons.menu,
           color: Colors.white,
@@ -189,13 +190,14 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
           const SizedBox(height: 10),
           const Center(
-              child: Text(
-            'Available in:',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
+            child: Text(
+              'Available in:',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
-          )),
+          ),
           for (final Torrent torrent in movie.torrents)
             ListTile(
               title: Column(
